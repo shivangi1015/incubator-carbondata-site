@@ -1,8 +1,9 @@
 import java.io.{File, PrintWriter}
-import collection.JavaConverters._
 
 import com.typesafe.config.ConfigFactory
 import org.slf4j.LoggerFactory
+
+import scala.collection.JavaConverters._
 
 class FileModification {
   val logger = LoggerFactory.getLogger(classOf[FileModification])
@@ -13,13 +14,14 @@ class FileModification {
   import scala.io.Source
 
   val headerContent: String = Source.fromFile("src/main/scala/html/header.html").mkString
-  val footerContent: String =Source.fromFile("src/main/scala/html/footer.html").mkString
+  val footerContent: String = Source.fromFile("src/main/scala/html/footer.html").mkString
 
   val location = "src/main/webapp/"
   val fileReadObject = new MdFilehandler
 
   /**
-    * reads list of files , converts file extension to output file extension and writes file to the locaion
+    * reads list of files , converts file extension to output file extension and writes file to the location
+    *
     * @return status of each file i.e. success or failure
     */
   def convertToHtml(): String = {
@@ -46,9 +48,10 @@ class FileModification {
 
   /**
     * Reads list of files from application.conf file
+    *
     * @return list of string
     */
-  private def readListOfFiles(): List[String] = {
+  def readListOfFiles(): List[String] = {
     val listOfFiles = ConfigFactory.load().getStringList("fileList").asScala.toList
     logger.info(s"List of files : $listOfFiles")
     listOfFiles
@@ -56,10 +59,11 @@ class FileModification {
 
   /**
     * writes file to the destination provided by path parameter
+    *
     * @param path storage location of the file
     * @param data contents of the file
     */
-  private def writeToFile(path: String, data: String): Unit = {
+  def writeToFile(path: String, data: String): Unit = {
     val writer = new PrintWriter(new File(path))
     writer.write(headerContent + data + footerContent)
     writer.close()

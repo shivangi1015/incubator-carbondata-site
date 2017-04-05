@@ -15,8 +15,8 @@ class MdFilehandler {
   /**
     * converts .md extension to .html extension
     * changes location of image from local to git repository
-    * @param input
-    * @return contents of file
+    * @param input contents of file
+    * @return contents of file after required modifications
     */
   def ConvertMdExtension(input: String): String = {
     val modifyContentPattern = new Regex("id=\"user-content-")
