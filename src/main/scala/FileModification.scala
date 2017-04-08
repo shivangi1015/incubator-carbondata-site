@@ -4,19 +4,24 @@ import com.typesafe.config.ConfigFactory
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
+import org.xhtmlrenderer.pdf.ITextRenderer
+
+import java.io.FileOutputStream
+
+
+
 
 class FileModification {
   val logger = LoggerFactory.getLogger(classOf[FileModification])
-  val url = "https://raw.githubusercontent.com/apache/incubator-carbondata/master/docs/"
+  val url = ConfigFactory.load().getString("apiUrl")
   val inputFileExtension = ".md"
   val outputFileExtension = ".html"
 
   import scala.io.Source
 
-  val headerContent: String = Source.fromFile("src/main/scala/html/header.html").mkString
-  val footerContent: String = Source.fromFile("src/main/scala/html/footer.html").mkString
-
-  val location = "src/main/webapp/"
+  val headerContent: String = Source.fromFile(ConfigFactory.load().getString("headerPath")).mkString
+  val footerContent: String = Source.fromFile(ConfigFactory.load().getString("footerPath")).mkString
+  val location = ConfigFactory.load().getString("outputFileLocation")
   val fileReadObject = new MdFilehandler
 
   /**
@@ -67,6 +72,19 @@ class FileModification {
     val writer = new PrintWriter(new File(path))
     writer.write(headerContent + data + footerContent)
     writer.close()
+  }
+
+  def convertToPdf() ={
+    var fos: FileOutputStream = null
+    val File_To_Convert  ="src/main/webapp/installation-guide.html"
+    val url = new File(File_To_Convert).toURI().toURL().toString()
+    val HTML_TO_PDF = "src/main/webapp/installation-guide.pdf"
+    fos = new FileOutputStream(HTML_TO_PDF)
+    val renderer = new ITextRenderer()
+    renderer.setDocument(url)
+    renderer.layout()
+    renderer.createPDF(fos)
+    fos.close()
   }
 }
 

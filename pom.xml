@@ -145,6 +145,73 @@
       <artifactId>scalatest_2.11</artifactId>
       <version>3.0.1</version>
     </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.camel/maven-html-to-pdf -->
+      <dependency>
+          <groupId>org.apache.camel</groupId>
+          <artifactId>maven-html-to-pdf</artifactId>
+          <version>2.11.0</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+      <dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itextpdf</artifactId>
+          <version>5.5.10</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.xhtmlrenderer/core-renderer -->
+      <dependency>
+          <groupId>org.xhtmlrenderer</groupId>
+          <artifactId>core-renderer</artifactId>
+          <version>R8</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.maven.doxia/doxia-site-renderer -->
+      <dependency>
+          <groupId>org.apache.maven.doxia</groupId>
+          <artifactId>doxia-site-renderer</artifactId>
+          <version>1.7.4</version>
+      </dependency>
+
+
+
   </dependencies>
+
+
+  <profiles>
+
+      <profile>
+          <id>compile</id>
+          <activation>
+              <os>
+                  <name>Windows XP</name>
+                  <family>Windows</family>
+                  <arch>x86</arch>
+                  <version>5.1.2600</version>
+              </os>
+          </activation>
+      </profile>
+
+
+    <!--<profile>-->
+      <!--<id>Windows</id>-->
+      <!--<activation>-->
+        <!--<os>-->
+          <!--<family>Windows</family>-->
+        <!--</os>-->
+      <!--</activation>-->
+      <!--<properties>-->
+        <!--<script.extension>.bat</script.extension>-->
+      <!--</properties>-->
+    <!--</profile>-->
+    <profile>
+      <id>compile</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <properties>
+        <script.extension>.sh</script.extension>
+      </properties>
+    </profile>
+  </profiles>
 </project>
 
