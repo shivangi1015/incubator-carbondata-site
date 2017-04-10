@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import org.xhtmlrenderer.pdf.ITextRenderer
+//import com.lowagie.text.DocumentException
 
 import java.io.FileOutputStream
 
@@ -74,14 +75,22 @@ class FileModification {
     writer.close()
   }
 
+  /**
+    * Converts generated html files to their pdf version
+    */
   def convertToPdf() ={
     var fos: FileOutputStream = null
     val File_To_Convert  ="src/main/webapp/installation-guide.html"
-    val url = new File(File_To_Convert).toURI().toURL().toString()
+    val url = new File(File_To_Convert)
+    logger.info("url : "+url)
     val HTML_TO_PDF = "src/main/webapp/installation-guide.pdf"
+    logger.info("HTML_TO_PDF :"+HTML_TO_PDF)
     fos = new FileOutputStream(HTML_TO_PDF)
+    logger.info("fos :"+fos)
     val renderer = new ITextRenderer()
-    renderer.setDocument(url)
+    val data=Source.fromFile("src/main/webapp/demoFile.html").mkString
+    logger.info("Data from html: "+data)
+    renderer.setDocument(data)
     renderer.layout()
     renderer.createPDF(fos)
     fos.close()
